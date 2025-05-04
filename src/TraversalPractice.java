@@ -1,3 +1,5 @@
+import javax.swing.tree.TreeNode;
+
 public class TraversalPractice {
   
   /**
@@ -11,12 +13,14 @@ public class TraversalPractice {
 
     if(node == null) return;
 
+
+    printOddNodes(node.left);
+    printOddNodes(node.right);
+
     if(node.value % 2 != 0)
     {
       System.out.println(node.value);
     }
-    printOddNodes(node.left);
-    printOddNodes(node.right);
   }
 
   /**
@@ -28,7 +32,15 @@ public class TraversalPractice {
    * @param node The root of the tree to print
    */
   public static <T> void printNodesWithOneChild(Node<T> node) {
-    
+    if(node == null) return;
+    if(node.left == null && node.right == null) return;
+    if(node.left == null || node.right == null) 
+    {
+      System.out.println(node.value);
+    }
+
+    printNodesWithOneChild(node.left);
+    printNodesWithOneChild(node.right);
   }
 
     /**
@@ -40,7 +52,14 @@ public class TraversalPractice {
    * @return the sum 
    */
   public static int treeSum(Node<Integer> node) {
-    return 0;
+    if(node == null) return 0;
+
+
+    int leftValues = treeSum(node.left);
+    int rightValues = treeSum(node.right);
+    int total =  node.value+ leftValues + rightValues;
+    return  total;
+    
   }
 
   /**
@@ -53,7 +72,20 @@ public class TraversalPractice {
    * @return the max value
    */
   public static int maxVal(Node<Integer> node) {
-    return 0;
+    
+    if(node == null) return 0;
+    int max = node.value;
+    
+    int leftValues = maxVal(node.left);
+    int rightValues = maxVal(node.right);
+    if(leftValues > max){
+      max = leftValues;
+    }
+    if(rightValues > max){
+      max = rightValues;
+    }
+    
+    return max;
   }
 
   /**
@@ -66,7 +98,23 @@ public class TraversalPractice {
    * @return The number of levels in the tree
    */
   public static <T> int numLevels(Node<T> node) {
-    return 0;
+    if(node == null)
+    {
+      return 0;
+    }
+    int trueLevel = 0;;
+    int rightLevel =  1 + numLevels(node.right);
+    int leftLevel =  1 + numLevels(node.left);
+
+    if(rightLevel >= leftLevel)
+    {
+      trueLevel = rightLevel;
+    }
+    else if(leftLevel >= rightLevel)
+    {
+      trueLevel = leftLevel;
+    }
+    return trueLevel;
   }
 
   public static void main(String[] args) {
@@ -80,7 +128,6 @@ public class TraversalPractice {
 
      // Replace the below line to create a tree 
      // as represented in the diagram above
-     Node<Integer> smallTree = null;
 
 
     /*
